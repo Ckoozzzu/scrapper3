@@ -87,7 +87,7 @@ def main( config ):
     This function takes the configuration and starts the miner.
     It sets up the necessary Bittensor objects, attaches the necessary functions to the axon, and starts the main loop.
     """
-    twitter_query = get_query(QueryType.TWITTER, QueryProvider.TWEET_FLASH)
+    twitter_query = get_query(QueryType.TWITTER, QueryProvider.MICROWORLDS_TWITTER_SCRAPER)
     reddit_query = get_query(QueryType.REDDIT, QueryProvider.REDDIT_SCRAPER_LITE)
     # Activating Bittensor's logging with the set configurations.
     bt.logging(config=config, logging_dir=config.full_path)
@@ -226,7 +226,7 @@ def main( config ):
             search_key = [random_line()]
             bt.logging.info(f"picking random keyword: {search_key} \n")
 
-        tweets = twitter_query.execute(search_key, 15, synapse.dendrite.hotkey, validator_version_str, my_subnet_uid)
+        tweets = twitter_query.execute(search_key, 30, synapse.dendrite.hotkey, validator_version_str, my_subnet_uid)
         synapse.version = scraping.utils.get_my_version()        
         synapse.scrap_output = tweets
         bt.logging.info(f"✅ success: returning {len(synapse.scrap_output)} tweets\n")
@@ -260,7 +260,7 @@ def main( config ):
             search_key = [random_line()]
             bt.logging.info(f"picking random keyword: {search_key} \n")
         # Fetch latest N posts from miner's local database.
-        posts = reddit_query.execute(search_key, 15, synapse.dendrite.hotkey, validator_version_str, my_subnet_uid)
+        posts = reddit_query.execute(search_key, 30, synapse.dendrite.hotkey, validator_version_str, my_subnet_uid)
         synapse.scrap_output = posts
         synapse.version = scraping.utils.get_my_version()        
         bt.logging.info(f"✅ success: returning {len(synapse.scrap_output)} reddit posts\n")

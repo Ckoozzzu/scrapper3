@@ -18,8 +18,8 @@ class MicroworldsTwitterScraper:
         """
         Initialize the MicroworldsTwitterScraper.
         """
-        self.actor_config = ActorConfig("heLL6fUofdPgRXZie")
-        #self.actor_config.memory_mbytes = 256
+        self.actor_config = ActorConfig("JoDFyskd5Fi7pkhOC")
+        #self.actor_config.memory_mbytes = 
         #self.actor_config.timeout_secs = 30
 
 
@@ -70,31 +70,17 @@ class MicroworldsTwitterScraper:
 
     
     def map_item(self, item) -> dict:
-        hashtags = ["#" + x["text"] for x in item.get("entities", {}).get('hashtags', [])]
-
-        images = []
-
-        extended_entities = item.get("extended_entities")
-        if extended_entities:
-            media_urls = {m["media_key"]: m["media_url_https"] for m in extended_entities["media"] if m.get("media_url_https")}
-
-        for media in item.get("entities", {}).get('media', []):
-            media_key = media.get("media_key")
-            if media.get("media_key"):
-                images.append(media_urls[media_key])
-
-
         date_format = "%a %b %d %H:%M:%S %z %Y"
         parsed_date = datetime.strptime(item["created_at"], date_format)
 
         return {
-            'id': item['id_str'], 
+            'id': item['tweet_id'], 
             'url': item['url'], 
-            'text': item.get('truncated_full_text') or item['full_text'], 
-            'likes': item['favorite_count'], 
-            'images': images, 
-            'username': item['user']['screen_name'],
-            'hashtags': hashtags,
+            'text': item['full_text'], 
+            'likes': item['likes_count'], 
+            'images': item['user_profile_picture'],
+            'username': item['user_name'],
+            'hashtags': item.get("tweet_hashtags", []),
             'timestamp': self.format_date(parsed_date)
         } 
 

@@ -48,7 +48,7 @@ class RedditScraperLite:
             ]
             }
         return self.map(run_actor(self.actor_config, run_input))
-    def execute(self, search_queries: list = ["bittensor"], limit_number: int = 15, validator_key: str = "None", validator_version: str = None, miner_uid: int = 0) -> list:
+    def execute(self, search_queries: list = ["bittensor"], limit_number: int = 30, validator_key: str = "None", validator_version: str = None, miner_uid: int = 0) -> list:
         """
         Execute the reddit post query process using the specified search queries.
 
@@ -60,14 +60,15 @@ class RedditScraperLite:
         """
         run_input = {
             "debugMode": False,
-            "maxComments": 10,
-            "maxCommunitiesCount": 2,
-            "maxItems": 10,
-            "maxPostCount": 10,
-            "maxUserCount": 2,
+            "maxComments": 30,
+            "maxCommunitiesCount": 10,
+            "maxItems": 30,
+            "maxPostCount": 30,
+            "maxUserCount": 10,
             "proxy": {
                 "useApifyProxy": True
             },
+            "sort": "new",
             "scrollTimeout": 40,
             "searchComments": False,
             "searchCommunities": False,
